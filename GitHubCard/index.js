@@ -1,21 +1,66 @@
+
+import axios from 'axios'
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
 
+
+const followersArray = ["https://api.github.com/users/tetondan", "https://api.github.com/users/dustinmyers", "https://api.github.com/users/justsml","https://api.github.com/users/luishrd", "https://api.github.com/users/bigknell"];
+
+axios.get('https://api.github.com/users/LizDrumm')
+.then(stuff => {
+const gitCard = stuff.data
+const myCard = githubCardMaker(gitCard)
+entryPoint.appendChild(myCard)
+})
+
+.catch (err =>{
+  
+   })
+  
+   
+   followersArray.forEach(URL => {
+    axios.get(URL)
+    .then (stuff =>{
+      console.log(stuff)
+      const userCard = githubCardMaker(stuff.data)
+      entryPoint.appendChild(userCard)
+    })
+    .catch(err =>{
+      console.log('error',err)
+  })
+  })
+
+// followersArray.forEach(newUser => {
+//   axios.get(`https://api.github.com/users/${followersArray}`)
+//       .then(stuff => {
+//       const newCard = githubCardMaker(newUser)
+//       card.appendChild(newCard)
+//    })
+//   .catch (err =>{
+//     })
+//     })
+
+    //make axios call then  githubcardmaker-append
+
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
 
-    Skip to STEP 3.
+    Skip to STEP 4.
 */
 
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+
+
+
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -28,7 +73,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+//const followersArray = ["tetondan", "dustinmyers", "dustinmyers", "justsml", "luishrd", "bigknell"]
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -50,11 +95,65 @@ const followersArray = [];
     </div>
 */
 
-/*
-  List of LS Instructors Github username's:
-    tetondan
-    dustinmyers
-    justsml
-    luishrd
-    bigknell
-*/
+//
+const entryPoint = document.querySelector ('.cards')
+
+function githubCardMaker(obj){
+  const card = document.createElement ('div')
+  const cardInfo=document.createElement('div')
+  const image = document.createElement('img')
+  const name = document.createElement('h3')
+  const username= document.createElement('p')
+  const location =document.createElement('p')
+  const profileLink=document.createElement('p')
+  const followers=document.createElement('p')
+  const following=document.createElement('p')
+  const bio= document.createElement('p')
+
+// setting class names, attributes and text
+card.classList.add ('card')
+image.classList.add ('card-image')
+name. classList.add ('name')
+username.classList.add ('username')
+cardInfo.classList.add ('card-info')
+
+image.src= obj.avatar_url
+name.textContent = obj.name
+username.textContent = obj.login
+location.textContent= obj.location
+profileLink.src =obj.html_url
+followers.textContent=obj.followers_url
+following.textContent =obj.following_url
+bio.textContent= obj.bio
+
+ // creating the hierarchy
+card.appendChild(image)
+card.appendChild(cardInfo)
+cardInfo.appendChild(name)
+cardInfo.appendChild(username)
+cardInfo.appendChild(location)
+cardInfo.appendChild(profileLink)
+cardInfo.appendChild(followers)
+cardInfo.appendChild(following)
+cardInfo.appendChild(bio)
+
+// //  // adding some interactivity
+//   gitCard.addEventListener('click', () => {
+//   gitCard.classList.toggle('selected')
+//  })
+
+return card
+
+}
+
+console.log(axios)
+
+
+  // List of LS Instructors Github username's:
+  //   tetondan
+  //   dustinmyers
+  //   justsml
+  //   luishrd
+  //   bigknell
+  
+
